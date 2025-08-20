@@ -9,7 +9,7 @@ namespace WeddingMerchantApi.Services
 
         public EmailService(IConfiguration configuration)
         {
-            _apiKey = configuration["SENDGRID_API_KEY"];
+            _apiKey = configuration["SendGrid:AccessToken"];
         }
 
         public async Task<bool> SendEmailAsync(string toEmail, string subject, string htmlContent)
