@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "MA8qWNR+oyvGVQPDZ6EJ829Q9gEY1wl09BIdXTLNvEs=",
+  "Source": "WeddingMerchantApi",
+  "BasePath": "_content/WeddingMerchantApi",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
