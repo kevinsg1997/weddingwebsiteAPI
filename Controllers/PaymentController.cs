@@ -41,9 +41,9 @@ namespace WeddingMerchantApi.Controllers
                     },
                     BackUrls = new PreferenceBackUrlsRequest
                     {
-                        Success = "http://localhost:5173/success",
-                        Failure = "http://localhost:5173/failure",
-                        Pending = "http://localhost:5173/pending"
+                        Success = "https://weddingwebsite-chi.vercel.app/merchant/success",
+                        Failure = "https://weddingwebsite-chi.vercel.app/merchant/failure",
+                        Pending = "https://weddingwebsite-chi.vercel.app/merchant/pending"
                     },
                     AutoReturn = "approved"
                 };
