@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\kevin\\Desktop\\WeddingWebsite\\WeddingMerchantApi\\WeddingMerchantApi\\WeddingMerchantApi.csproj": {}
+    "C:\\Users\\Kevin\\Desktop\\WeddingWebsite\\WeddingMerchantApi\\WeddingMerchantApi\\WeddingMerchantApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\kevin\\Desktop\\WeddingWebsite\\WeddingMerchantApi\\WeddingMerchantApi\\WeddingMerchantApi.csproj": {
+    "C:\\Users\\Kevin\\Desktop\\WeddingWebsite\\WeddingMerchantApi\\WeddingMerchantApi\\WeddingMerchantApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kevin\\Desktop\\WeddingWebsite\\WeddingMerchantApi\\WeddingMerchantApi\\WeddingMerchantApi.csproj",
+        "projectUniqueName": "C:\\Users\\Kevin\\Desktop\\WeddingWebsite\\WeddingMerchantApi\\WeddingMerchantApi\\WeddingMerchantApi.csproj",
         "projectName": "WeddingMerchantApi",
-        "projectPath": "C:\\Users\\kevin\\Desktop\\WeddingWebsite\\WeddingMerchantApi\\WeddingMerchantApi\\WeddingMerchantApi.csproj",
+        "projectPath": "C:\\Users\\Kevin\\Desktop\\WeddingWebsite\\WeddingMerchantApi\\WeddingMerchantApi\\WeddingMerchantApi.csproj",
         "packagesPath": "C:\\Users\\kevin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\kevin\\Desktop\\WeddingWebsite\\WeddingMerchantApi\\WeddingMerchantApi\\obj\\",
+        "outputPath": "C:\\Users\\Kevin\\Desktop\\WeddingWebsite\\WeddingMerchantApi\\WeddingMerchantApi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

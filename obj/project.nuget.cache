@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "xF7+9nMW2Hk=",
+  "dgSpecHash": "JAdPRtdPupI=",
   "success": true,
-  "projectFilePath": "C:\\Users\\kevin\\Desktop\\WeddingWebsite\\WeddingMerchantApi\\WeddingMerchantApi\\WeddingMerchantApi.csproj",
+  "projectFilePath": "C:\\Users\\Kevin\\Desktop\\WeddingWebsite\\WeddingMerchantApi\\WeddingMerchantApi\\WeddingMerchantApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\kevin\\.nuget\\packages\\mercadopago-sdk\\2.8.0\\mercadopago-sdk.2.8.0.nupkg.sha512",
     "C:\\Users\\kevin\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.3\\microsoft.aspnetcore.openapi.9.0.3.nupkg.sha512",
