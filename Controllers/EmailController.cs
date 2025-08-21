@@ -19,10 +19,12 @@ namespace WeddingMerchantApi.Controllers
             public string Name { get; set; } = string.Empty;
             public string Email { get; set; } = string.Empty;
             public bool Attending { get; set; }
+
+            public string ItemName { get; set; } = string.Empty;
         }
 
         [HttpPost("confirm")]
-        public async Task<IActionResult> ConfirmAttendance([FromBody] RSVPRequest request, string item)
+        public async Task<IActionResult> ConfirmAttendance([FromBody] RSVPRequest request)
         {
             try
             {
