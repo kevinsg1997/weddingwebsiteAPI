@@ -22,7 +22,30 @@ namespace WeddingMerchantApi.Controllers
         }
 
         [HttpPost("confirm")]
-        public async Task<IActionResult> ConfirmAttendance([FromBody] RSVPRequest request)
+        public async Task<IActionResult> ConfirmAttendance([FromBody] RSVPRequest request, string item)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(request.Name))
+                    return BadRequest(new { message = "Informe seu nome para identificação." });
+
+                string htmlContent = $"<h1>Ai sim {request.Name}!</h1>" +
+                                     $"<p>{request.Name} te deu um presente da loja, aproveite seu {item}.<br>Email do convidado: {request.Email}</p>";
+
+                bool sent = await _emailService.SendEmailAsync("", $"{request.Name} realizou uma compra na loja!", htmlContent);
+
+                if (!sent) return StatusCode(500, new { message = "Erro ao enviar o e-mail." });
+
+                return Ok(new { message = "Resposta enviada com sucesso!" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = ex.Message });
+            }
+        }
+
+        [HttpPost("confirmPurchase")]
+        public async Task<IActionResult> ConfirmPurchase([FromBody] RSVPRequest request)
         {
             try
             {
@@ -33,9 +56,9 @@ namespace WeddingMerchantApi.Controllers
                     string statusText = request.Attending ? "confirmou presença" : "não poderá comparecer";
 
                 string htmlContent = $"<h1>{request.Name} respondeu ao seu convite!</h1>" +
-                                     $"<p>{request.Name} {statusText} no seu casamento.</br>Email do convidado: {request.Email}</p>";
+                                     $"<p>{request.Name} {statusText} no seu casamento.<br>Email do convidado: {request.Email}</p>";
 
-                bool sent = await _emailService.SendEmailAsync("", "Resposta de Presença", htmlContent);
+                bool sent = await _emailService.SendEmailAsync("", $"{request.Name} respondeu ao convite do casamento!", htmlContent);
 
                 if (!sent) return StatusCode(500, new { message = "Erro ao enviar o e-mail." });
 
