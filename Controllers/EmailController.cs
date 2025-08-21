@@ -31,7 +31,7 @@ namespace WeddingMerchantApi.Controllers
                     return BadRequest(new { message = "Informe seu nome para identificação." });
 
                 string htmlContent = $"<h1>Ai sim {request.Name}!</h1>" +
-                                     $"<p>{request.Name} te deu um presente da loja, aproveite seu {item}.<br>Email do convidado: {request.Email}</p>";
+                                     $"<p>{request.Name} te deu um presente da loja, aproveite seu {request.ItemName}.<br>Email do convidado: {request.Email}</p>";
 
                 bool sent = await _emailService.SendEmailAsync("", $"{request.Name} realizou uma compra na loja!", htmlContent);
 
