@@ -45,7 +45,12 @@ namespace WeddingMerchantApi.Controllers
                         Failure = "https://weddingwebsite-chi.vercel.app/merchant/failure",
                         Pending = "https://weddingwebsite-chi.vercel.app/merchant/pending"
                     },
-                    AutoReturn = "approved"
+                    AutoReturn = "approved",
+                    
+                    PaymentMethods = new PreferencePaymentMethodsRequest
+                    {
+                        DefaultPaymentMethodId = "pix"
+                    }
                 };
 
                 Preference preference = await client.CreateAsync(preferenceRequest);
