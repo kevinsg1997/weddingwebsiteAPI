@@ -14,16 +14,16 @@ namespace WeddingMerchantApi.Models
         public string? Buyer { get; set; }
         public string? Uri { get; set; }
         public bool Deleted { get; set; }
-    }
 
-    public PurchaseItem(string name, string description, decimal price, bool available, bool deleted)
-    {
-        Id = Guid.NewGuid();
-        CreatedAt = DateTime.UtcNow;
-        Name = name ?? throw new ArgumentNullException(nameof(name), "Name cannot be null");
-        Description = description ?? throw new ArgumentNullException(nameof(description), "Description cannot be null");
-        Price = price;
-        Available = available;
-        Deleted = deleted;
+        public PurchaseItem(string name, string description, decimal price, bool available, bool deleted)
+        {
+            Id = Guid.NewGuid();
+            CreatedAt = DateTime.UtcNow;
+            Name = name ?? throw new ArgumentNullException(nameof(name), "Name cannot be null");
+            Description = description ?? throw new ArgumentNullException(nameof(description), "Description cannot be null");
+            Price = price;
+            Available = available;
+            Deleted = deleted;
+        }
     }
 }
