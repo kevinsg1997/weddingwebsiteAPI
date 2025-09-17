@@ -18,12 +18,12 @@ namespace WeddingMerchantApi.Controllers
 
         // Criar um novo item de compra
         [HttpPost("create")]
-        public async Task<IActionResult> CreatePurchaseItem([FromBody] PurchaseItem purchaseItem)
+        public async Task<IActionResult> CreatePurchaseItem([FromBody] PurchaseItems purchaseItem)
         {
             try
             {
-                _dbContext.PurchaseItems.Add(purchaseItem);
                 purchaseItem.Available = true; // Novo item começa como disponível
+                _dbContext.PurchaseItems.Add(purchaseItem);
                 await _dbContext.SaveChangesAsync();
 
                 return Ok(purchaseItem);

@@ -6,7 +6,7 @@ namespace WeddingMerchantApi.Data
     public class AppDbContext : DbContext
     {
         // DbSet para a tabela PurchaseItems
-        public DbSet<PurchaseItem> PurchaseItems { get; set; }
+        public DbSet<PurchaseItem> PurchaseItem { get; set; }
 
         // DbSet para a tabela Guests
         public DbSet<Guest> Guests { get; set; }
@@ -35,7 +35,7 @@ namespace WeddingMerchantApi.Data
 
         public async Task UpdateItemAsSold(string itemId, string buyerName)
         {
-            var purchaseItem = await PurchaseItems
+            var purchaseItem = await PurchaseItem
                 .FirstOrDefaultAsync(item => item.Id.ToString() == itemId);
 
             if (purchaseItem != null)
