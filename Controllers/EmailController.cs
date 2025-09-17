@@ -46,30 +46,30 @@ namespace WeddingMerchantApi.Controllers
         }
 
         // Agora que implementei um banco, não usarei mais esse endpoint.
-        // [HttpPost("confirm")]
-        // public async Task<IActionResult> ConfirmAttendance([FromBody] RSVPRequest request)
-        // {
-        //     try
-        //     {
-        //         if (string.IsNullOrEmpty(request.Name))
-        //             return BadRequest(new { message = "Informe seu nome para identificação." });
+        [HttpPost("confirm")]
+        public async Task<IActionResult> ConfirmAttendance([FromBody] RSVPRequest request)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(request.Name))
+                    return BadRequest(new { message = "Informe seu nome para identificação." });
 
-        //         // Para caso eu adicione um bd, posso utilizar.
-        //             string statusText = request.Attending ? "confirmou presença" : "não poderá comparecer";
+                // Para caso eu adicione um bd, posso utilizar.
+                    string statusText = request.Attending ? "confirmou presença" : "não poderá comparecer";
 
-        //         string htmlContent = $"<h1>{request.Name} respondeu ao seu convite!</h1>" +
-        //                              $"<p>{request.Name} {statusText} no seu casamento.<br>Email do convidado: {request.Email}</p>";
+                string htmlContent = $"<h1>{request.Name} respondeu ao seu convite!</h1>" +
+                                     $"<p>{request.Name} {statusText} no seu casamento.<br>Email do convidado: {request.Email}</p>";
 
-        //         bool sent = await _emailService.SendEmailAsync("", $"{request.Name} respondeu ao convite do casamento!", htmlContent);
+                bool sent = await _emailService.SendEmailAsync("", $"{request.Name} respondeu ao convite do casamento!", htmlContent);
 
-        //         if (!sent) return StatusCode(500, new { message = "Erro ao enviar o e-mail." });
+                if (!sent) return StatusCode(500, new { message = "Erro ao enviar o e-mail." });
 
-        //         return Ok(new { message = "Resposta enviada com sucesso!" });
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         return StatusCode(500, new { error = ex.Message });
-        //     }
-        // }
+                return Ok(new { message = "Resposta enviada com sucesso!" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = ex.Message });
+            }
+        }
     }
 }
