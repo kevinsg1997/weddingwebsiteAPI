@@ -22,7 +22,7 @@ namespace WeddingMerchantApi.Controllers
         {
             try
             {
-                _dbContext.Guests.Add(guest);
+                _dbContext.Guest.Add(guest);
                 await _dbContext.SaveChangesAsync();
 
                 return Ok(guest);
@@ -39,7 +39,7 @@ namespace WeddingMerchantApi.Controllers
         {
             try
             {
-                var guests = await _dbContext.Guests.ToListAsync();
+                var guests = await _dbContext.Guest.ToListAsync();
                 return Ok(guests);
             }
             catch (Exception ex)
@@ -54,7 +54,7 @@ namespace WeddingMerchantApi.Controllers
         {
             try
             {
-                var guest = await _dbContext.Guests.FindAsync(id);
+                var guest = await _dbContext.Guest.FindAsync(id);
                 if (guest == null)
                 {
                     return NotFound();
@@ -74,7 +74,7 @@ namespace WeddingMerchantApi.Controllers
         {
             try
             {
-                var guest = await _dbContext.Guests.FindAsync(id);
+                var guest = await _dbContext.Guest.FindAsync(id);
                 if (guest == null)
                 {
                     return NotFound();
@@ -100,13 +100,13 @@ namespace WeddingMerchantApi.Controllers
         {
             try
             {
-                var guest = await _dbContext.Guests.FindAsync(id);
+                var guest = await _dbContext.Guest.FindAsync(id);
                 if (guest == null)
                 {
                     return NotFound();
                 }
 
-                _dbContext.Guests.Remove(guest);
+                _dbContext.Guest.Remove(guest);
                 await _dbContext.SaveChangesAsync();
 
                 return Ok(new { message = "Guest deleted successfully." });

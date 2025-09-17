@@ -5,11 +5,11 @@ namespace WeddingMerchantApi.Data
 {
     public class AppDbContext : DbContext
     {
-        // DbSet para a tabela PurchaseItems
+        // DbSet para a tabela PurchaseItem
         public DbSet<PurchaseItem> PurchaseItem { get; set; }
 
-        // DbSet para a tabela Guests
-        public DbSet<Guest> Guests { get; set; }
+        // DbSet para a tabela Guest
+        public DbSet<Guest> Guest { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 

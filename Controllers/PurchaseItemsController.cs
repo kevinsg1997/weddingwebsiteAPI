@@ -18,12 +18,12 @@ namespace WeddingMerchantApi.Controllers
 
         // Criar um novo item de compra
         [HttpPost("create")]
-        public async Task<IActionResult> CreatePurchaseItem([FromBody] PurchaseItems purchaseItem)
+        public async Task<IActionResult> CreatePurchaseItem([FromBody] PurchaseItem purchaseItem)
         {
             try
             {
                 purchaseItem.Available = true; // Novo item começa como disponível
-                _dbContext.PurchaseItems.Add(purchaseItem);
+                _dbContext.PurchaseItem.Add(purchaseItem);
                 await _dbContext.SaveChangesAsync();
 
                 return Ok(purchaseItem);
@@ -40,7 +40,7 @@ namespace WeddingMerchantApi.Controllers
         {
             try
             {
-                var items = await _dbContext.PurchaseItems.ToListAsync();
+                var items = await _dbContext.PurchaseItem.ToListAsync();
                 return Ok(items);
             }
             catch (Exception ex)
@@ -55,7 +55,7 @@ namespace WeddingMerchantApi.Controllers
         {
             try
             {
-                var items = await _dbContext.PurchaseItems.ToListAsync();
+                var items = await _dbContext.PurchaseItem.ToListAsync();
                 items = items.Where(x => !x.Deleted).ToList();
                 return Ok(items);
             }
