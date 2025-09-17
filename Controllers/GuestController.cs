@@ -83,7 +83,6 @@ namespace WeddingMerchantApi.Controllers
                 guest.Name = updatedGuest.Name;
                 guest.Email = updatedGuest.Email;
                 guest.IsGoing = updatedGuest.IsGoing;
-                guest.UpdatedAt = DateTime.UtcNow;
 
                 await _dbContext.SaveChangesAsync();
 

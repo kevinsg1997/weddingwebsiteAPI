@@ -97,9 +97,9 @@ namespace WeddingMerchantApi.Controllers
                         string buyerEmail = payment.Payer.Email;
                         string buyerName = $"{payment.Payer.FirstName} {payment.Payer.LastName}";
 
-                        await _dbContext.UpdateItemAsSold(itemId, buyerName, buyerEmail);
+                        await _dbContext.UpdateItemAsSold(itemId, buyerName);
 
-                        Console.WriteLine($"✅ Item {itemId} vendido para {buyerName} ({buyerEmail})");
+                        Console.WriteLine($"✅ Item {itemId} comprado. {buyerName}");
                     }
                 }
 

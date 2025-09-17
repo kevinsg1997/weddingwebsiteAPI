@@ -3,6 +3,7 @@ using MercadoPago.Config;
 using MercadoPago.Client.Preference;
 using MercadoPago.Resource.Preference;
 using Microsoft.OpenApi.Models;
+using WeddingMerchantApi.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

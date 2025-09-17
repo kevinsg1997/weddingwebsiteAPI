@@ -23,6 +23,7 @@ namespace WeddingMerchantApi.Controllers
             try
             {
                 _dbContext.PurchaseItems.Add(purchaseItem);
+                purchaseItem.Available = true; // Novo item começa como disponível
                 await _dbContext.SaveChangesAsync();
 
                 return Ok(purchaseItem);

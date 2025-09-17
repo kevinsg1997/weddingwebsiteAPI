@@ -33,16 +33,15 @@ namespace WeddingMerchantApi.Data
             });
         }
 
-        public async Task UpdateItemAsSold(string itemId, string buyerName, string buyerEmail)
+        public async Task UpdateItemAsSold(string itemId, string buyerName)
         {
             var purchaseItem = await PurchaseItems
-                .FirstOrDefaultAsync(item => item.Id.ToString() == itemId); // assuming itemId is a Guid in the DB
+                .FirstOrDefaultAsync(item => item.Id.ToString() == itemId);
 
             if (purchaseItem != null)
             {
                 // Atualiza as informações do comprador e marca o item como não disponível
-                purchaseItem.BuyerName = buyerName;
-                purchaseItem.BuyerEmail = buyerEmail;
+                purchaseItem.Buyer = buyerName;
                 purchaseItem.Available = false;
 
                 await SaveChangesAsync();
