@@ -55,7 +55,8 @@ namespace WeddingMerchantApi.Controllers
         {
             try
             {
-                var items = await _dbContext.PurchaseItems.Where(x => !x.Deleted).ToListAsync();
+                var items = await _dbContext.PurchaseItems.ToListAsync();
+                items = items.Where(x => !x.Deleted).ToList();
                 return Ok(items);
             }
             catch (Exception ex)
