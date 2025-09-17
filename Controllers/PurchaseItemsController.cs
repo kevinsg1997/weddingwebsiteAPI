@@ -50,7 +50,7 @@ namespace WeddingMerchantApi.Controllers
 
         // Obter itens não deletados
         [HttpGet("not-deleted")]
-        public async Task<IActionResult> GetAllPurchaseItems()
+        public async Task<IActionResult> GetNotDeletedPurchaseItems()
         {
             try
             {
