@@ -12,10 +12,12 @@ namespace WeddingMerchantApi.Controllers
     public class PaymentController : ControllerBase
     {
         private readonly IConfiguration _configuration;
+        private readonly AppDbContext _dbContext;
 
-        public PaymentController(IConfiguration configuration)
+        public PaymentController(IConfiguration configuration, AppDbContext dbContext)
         {
             _configuration = configuration;
+            _dbContext = dbContext;
             MercadoPagoConfig.AccessToken = configuration["MercadoPago:AccessToken"];
         }
 
