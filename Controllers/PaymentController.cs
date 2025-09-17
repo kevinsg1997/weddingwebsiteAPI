@@ -1,4 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using WeddingMerchantApi.Data;
+using WeddingMerchantApi.Models;
+using Microsoft.EntityFrameworkCore;
 using MercadoPago.Config;
 using MercadoPago.Client.Preference;
 using MercadoPago.Resource.Preference;
