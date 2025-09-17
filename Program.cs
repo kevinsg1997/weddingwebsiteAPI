@@ -5,6 +5,19 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
+                       ?? Environment.GetEnvironmentVariable("SUPABASE_CONNECTION");
+
+var mercadoPagoAccessToken = builder.Configuration["MercadoPago:AccessToken"]
+                              ?? Environment.GetEnvironmentVariable("MERCADO_PAGO_ACCESS_TOKEN");
+
+MercadoPagoConfig.AccessToken = mercadoPagoAccessToken;
+
+var mercadoPagoTestAccessToken = builder.Configuration["MercadoPagoTest:AccessToken"]
+                              ?? Environment.GetEnvironmentVariable("MERCADO_PAGO_TEST_ACCESS_TOKEN");
+                              
+MercadoPagoTestConfig.AccessToken = mercadoPagoTestAccessToken;
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", builder =>
@@ -12,6 +25,9 @@ builder.Services.AddCors(options =>
                .AllowAnyMethod()
                .AllowAnyHeader());
 });
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(connectionString));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

@@ -46,7 +46,6 @@ namespace WeddingMerchantApi.Controllers
                         }
                     },
 
-                    // importante para identificar o item no webhook
                     ExternalReference = request.ItemId, 
 
                     BackUrls = new PreferenceBackUrlsRequest
@@ -62,8 +61,7 @@ namespace WeddingMerchantApi.Controllers
                         DefaultPaymentMethodId = "pix"
                     },
 
-                    // URL do webhook
-                    NotificationUrl = "https://suaapi.com/api/payment/webhook"
+                    NotificationUrl = "https://weddingwebsiteapi-production.up.railway.app/api/payment/paymentWebhook"
                 };
 
                 Preference preference = await client.CreateAsync(preferenceRequest);
@@ -76,14 +74,13 @@ namespace WeddingMerchantApi.Controllers
             }
         }
 
-        // Novo endpoint para Webhook
-        [HttpPost("webhook")]
-        public async Task<IActionResult> Webhook([FromBody] JsonElement payload)
+        [HttpPost("paymentWebhook")]
+        public async Task<IActionResult> PaymentWebhook([FromBody] JsonElement payload)
         {
             try
             {
                 if (!payload.TryGetProperty("type", out var typeProp))
-                    return Ok(); // ignora se não tiver o tipo
+                    return Ok();
 
                 string type = typeProp.GetString() ?? "";
 
@@ -100,9 +97,7 @@ namespace WeddingMerchantApi.Controllers
                         string buyerEmail = payment.Payer.Email;
                         string buyerName = $"{payment.Payer.FirstName} {payment.Payer.LastName}";
 
-                        // 🔽 Aqui você atualiza no banco
-                        // Exemplo:
-                        // await _db.UpdateItemAsSold(itemId, buyerName, buyerEmail);
+                        await _dbContext.UpdateItemAsSold(itemId, buyerName, buyerEmail);
 
                         Console.WriteLine($"✅ Item {itemId} vendido para {buyerName} ({buyerEmail})");
                     }
