@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using MercadoPago.Config;
 using MercadoPago.Client.Preference;
 using MercadoPago.Resource.Preference;
@@ -15,8 +16,6 @@ MercadoPagoConfig.AccessToken = mercadoPagoAccessToken;
 
 var mercadoPagoTestAccessToken = builder.Configuration["MercadoPagoTest:AccessToken"]
                               ?? Environment.GetEnvironmentVariable("MERCADO_PAGO_TEST_ACCESS_TOKEN");
-                              
-MercadoPagoTestConfig.AccessToken = mercadoPagoTestAccessToken;
 
 builder.Services.AddCors(options =>
 {

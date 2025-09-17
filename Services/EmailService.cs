@@ -9,7 +9,8 @@ namespace WeddingMerchantApi.Services
 
         public EmailService(IConfiguration configuration)
         {
-            _apiKey = configuration["SENDGRID_API_KEY"];
+            _apiKey = configuration["SENDGRID_API_KEY"]
+                    ?? throw new ArgumentNullException("SENDGRID_API_KEY", "A chave da API do SendGrid não foi configurada.");
         }
 
         public async Task<bool> SendEmailAsync(string toEmail, string subject, string htmlContent)
