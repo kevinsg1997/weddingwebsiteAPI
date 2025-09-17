@@ -8,6 +8,6 @@ namespace WeddingMerchantApi.Models
         public DateTime CreatedAt { get; set; }
         public string? Name { get; set; }
         public string? Email { get; set; }
-        public bool? IsGoing { get; set; }
+        public bool IsGoing { get; set; }
     }
 }

@@ -2,7 +2,7 @@ using System;
 
 namespace WeddingMerchantApi.Models
 {
-    public class PurchaseItem
+    public class PurchaseItems
     {
         public Guid Id { get; set; }
         public DateTime CreatedAt { get; set; }
