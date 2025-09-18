@@ -8,8 +8,22 @@ public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
     {
         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 
-        var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL") 
-                               ?? "Host=yamabiko.proxy.rlwy.net;Port=53637;Username=postgres;Password=yngKHbrXNUUPEknEsIkvMVxsuaKzIljz;Database=railway;Pooling=true;SSL Mode=Require;Trust Server Certificate=true;";
+        var rawDatabaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+
+        var databaseUri = new Uri(rawDatabaseUrl);
+        var userInfo = databaseUri.UserInfo.Split(':');
+
+        var builderDb = new Npgsql.NpgsqlConnectionStringBuilder
+        {
+            Host = databaseUri.Host,
+            Port = databaseUri.Port,
+            Username = userInfo[0],
+            Password = userInfo[1],
+            Database = databaseUri.AbsolutePath.TrimStart('/'),
+            SslMode = Npgsql.SslMode.Require
+        };
+
+        var connectionString = builderDb.ToString();
 
         optionsBuilder.UseNpgsql(connectionString);
 
