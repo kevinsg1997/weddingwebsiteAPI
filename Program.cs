@@ -7,8 +7,7 @@ using WeddingMerchantApi.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
-                       ?? Environment.GetEnvironmentVariable("SUPABASE_CONNECTION");
+var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
 
 var mercadoPagoAccessToken = builder.Configuration["MercadoPago:AccessToken"]
                               ?? Environment.GetEnvironmentVariable("MERCADO_PAGO_ACCESS_TOKEN");
