@@ -20,6 +20,7 @@ namespace WeddingMerchantApi.Data
             // Aqui posso adicionar configurações extras se necessário
             modelBuilder.Entity<PurchaseItem>(entity =>
             {
+                entity.ToTable("purchaseitem");
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Id).HasDefaultValueSql("gen_random_uuid()");
                 entity.Property(e => e.CreatedAt).HasDefaultValueSql("now()");
@@ -27,6 +28,7 @@ namespace WeddingMerchantApi.Data
 
             modelBuilder.Entity<Guest>(entity =>
             {
+                entity.ToTable("guest");
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Id).HasDefaultValueSql("gen_random_uuid()");
                 entity.Property(e => e.CreatedAt).HasDefaultValueSql("now()");
