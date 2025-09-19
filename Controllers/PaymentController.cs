@@ -51,7 +51,7 @@ namespace WeddingMerchantApi.Controllers
                         }
                     },
 
-                    ExternalReference = request.ItemId, 
+                    ExternalReference = request.ItemId,
 
                     BackUrls = new PreferenceBackUrlsRequest
                     {
@@ -105,6 +105,8 @@ namespace WeddingMerchantApi.Controllers
                         await _dbContext.UpdateItemAsSold(itemId, buyerName);
 
                         Console.WriteLine($"✅ Item {itemId} comprado. {buyerName}");
+
+                        await NotifyClients(itemId, buyerName);
                     }
                 }
 
@@ -113,6 +115,47 @@ namespace WeddingMerchantApi.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, new { error = ex.Message });
+            }
+        }
+        
+        private static readonly List<HttpContext> _clients = new List<HttpContext>();
+
+        [HttpGet("events")]
+        public async Task Events()
+        {
+            Response.ContentType = "text/event-stream";
+            Response.StatusCode = 200;
+
+            var clientContext = HttpContext;
+            _clients.Add(clientContext);
+
+            try
+            {
+                while (!clientContext.RequestAborted.IsCancellationRequested)
+                {
+                    await Task.Delay(1000);
+                }
+            }
+            finally
+            {
+                _clients.Remove(clientContext);
+            }
+        }
+
+        private async Task NotifyClients(string itemId, string buyerName)
+        {
+            var message = $"item:{itemId} bought by {buyerName}";
+            foreach (var client in _clients)
+            {
+                try
+                {
+                    await client.Response.WriteAsync($"data: {message}\n\n");
+                    await client.Response.Body.FlushAsync();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error sending event: " + ex.Message);
+                }
             }
         }
     }

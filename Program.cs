@@ -30,9 +30,6 @@ var mercadoPagoAccessToken = builder.Configuration["MercadoPago:AccessToken"]
 
 MercadoPagoConfig.AccessToken = mercadoPagoAccessToken;
 
-var mercadoPagoTestAccessToken = builder.Configuration["MercadoPagoTest:AccessToken"]
-                              ?? Environment.GetEnvironmentVariable("MERCADO_PAGO_TEST_ACCESS_TOKEN");
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", builder =>
