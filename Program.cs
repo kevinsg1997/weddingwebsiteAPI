@@ -25,11 +25,6 @@ var builderDb = new Npgsql.NpgsqlConnectionStringBuilder
 
 var connectionString = builderDb.ToString();
 
-var mercadoPagoAccessToken = Environment.GetEnvironmentVariable("MERCADO_PAGO_ACCESS_TOKEN")
-                              ?? builder.Configuration["MercadoPago:AccessToken"];
-
-MercadoPagoConfig.AccessToken = mercadoPagoAccessToken;
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", builder =>
