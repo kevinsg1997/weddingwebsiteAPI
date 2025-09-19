@@ -65,6 +65,8 @@ namespace WeddingMerchantApi.Controllers
                     {
                         DefaultPaymentMethodId = "pix"
                     },
+
+                    NotificationUrl = "https://weddingwebsiteapi-production.up.railway.app/api/payment/paymentWebhook"
                 };
 
                 Preference preference = await client.CreateAsync(preferenceRequest);
@@ -89,7 +91,7 @@ namespace WeddingMerchantApi.Controllers
 
                 if (type == "payment")
                 {
-                    string paymentId = payload.GetProperty("data").GetProperty("id").GetString();
+                    string paymentId = payload.GetProperty("data").GetProperty("id").GetString() ?? "";
 
                     var paymentClient = new PaymentClient();
                     var payment = await paymentClient.GetAsync(long.Parse(paymentId));

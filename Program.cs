@@ -7,7 +7,8 @@ using WeddingMerchantApi.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var rawDatabaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+var rawDatabaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL")
+                     ?? " ";
 
 var databaseUri = new Uri(rawDatabaseUrl);
 var userInfo = databaseUri.UserInfo.Split(':');
@@ -19,14 +20,13 @@ var builderDb = new Npgsql.NpgsqlConnectionStringBuilder
     Username = userInfo[0],
     Password = userInfo[1],
     Database = databaseUri.AbsolutePath.TrimStart('/'),
-    SslMode = Npgsql.SslMode.Require,
-    TrustServerCertificate = true
+    SslMode = Npgsql.SslMode.Require
 };
 
 var connectionString = builderDb.ToString();
 
-var mercadoPagoAccessToken = builder.Configuration["MercadoPago:AccessToken"]
-                              ?? Environment.GetEnvironmentVariable("MERCADO_PAGO_ACCESS_TOKEN");
+var mercadoPagoAccessToken = Environment.GetEnvironmentVariable("MERCADO_PAGO_ACCESS_TOKEN")
+                              ?? builder.Configuration["MercadoPago:AccessToken"];
 
 MercadoPagoConfig.AccessToken = mercadoPagoAccessToken;
 
