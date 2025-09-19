@@ -21,7 +21,8 @@ namespace WeddingMerchantApi.Controllers
         {
             _configuration = configuration;
             _dbContext = dbContext;
-            MercadoPagoConfig.AccessToken = configuration["MercadoPago:AccessToken"];
+            // MercadoPagoConfig.AccessToken = configuration["MercadoPago:AccessToken"];
+            MercadoPagoConfig.AccessToken = Environment.GetEnvironmentVariable("MERCADO_PAGO_ACCESS_TOKEN");
         }
 
         public class PurchaseRequest
