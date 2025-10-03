@@ -120,6 +120,7 @@ namespace WeddingMerchantApi.Controllers
         }
         
         private static readonly List<HttpContext> _clients = new List<HttpContext>();
+        private static readonly object _clientsLock = new();
 
         [HttpGet("events")]
         public async Task Events()
@@ -127,35 +128,49 @@ namespace WeddingMerchantApi.Controllers
             Response.ContentType = "text/event-stream";
             Response.StatusCode = 200;
 
-            var clientContext = HttpContext;
-            _clients.Add(clientContext);
+            lock (_clientsLock)
+            {
+                _clients.Add(HttpContext);
+            }
 
             try
             {
-                while (!clientContext.RequestAborted.IsCancellationRequested)
+                while (!HttpContext.RequestAborted.IsCancellationRequested)
                 {
                     await Task.Delay(1000);
                 }
             }
             finally
             {
-                _clients.Remove(clientContext);
+                lock (_clientsLock)
+                {
+                    _clients.Remove(HttpContext);
+                }
             }
         }
 
         private async Task NotifyClients(string itemId, string buyerName)
         {
-            var message = $"item:{itemId} bought by {buyerName}";
-            foreach (var client in _clients)
+            var data = new
+            {
+                id = itemId,
+                available = false,
+                buyer = buyerName
+            };
+
+            var json = JsonSerializer.Serialize(data);
+
+            foreach (var client in _clients.ToList())
             {
                 try
                 {
-                    await client.Response.WriteAsync($"data: {message}\n\n");
+                    await client.Response.WriteAsync($"data: {json}\n\n");
                     await client.Response.Body.FlushAsync();
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error sending event: " + ex.Message);
+                    _clients.Remove(client);
                 }
             }
         }
