@@ -100,12 +100,12 @@ namespace WeddingMerchantApi.Controllers
                     if (payment.Status == "approved")
                     {
                         string itemId = payment.ExternalReference;
-                        string buyerEmail = payment.Payer.Email;
                         string buyerName = $"{payment.Payer.FirstName} {payment.Payer.LastName}";
+                        string buyerEmail = payment.Payer.Email;
 
                         await _dbContext.UpdateItemAsSold(itemId, buyerName);
 
-                        Console.WriteLine($"✅ Item {itemId} comprado. {buyerName}");
+                        Console.WriteLine($"✅ Item {itemId} comprado. {buyerName} ({buyerEmail})");
 
                         await NotifyClients(itemId, buyerName);
                     }
