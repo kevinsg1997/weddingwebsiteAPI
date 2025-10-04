@@ -34,6 +34,27 @@ namespace WeddingMerchantApi.Controllers
             }
         }
 
+        //Deletar um item de compra
+        [HttpPut("delete")]
+        public async Task<IActionResult> DeletePurchaseItem([FromBody] PurchaseItem purchaseItem)
+        {
+            try
+            {
+                purchaseItem.Available = true;
+                purchaseItem.Deleted = true;
+                purchaseItem.UpdatedAt = DateTime.UtcNow;
+
+                _dbContext.PurchaseItem.Add(purchaseItem);
+                await _dbContext.SaveChangesAsync();
+
+                return Ok(purchaseItem);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = ex.Message });
+            }
+        }
+
         // Obter todos os itens de compra
         [HttpGet("all")]
         public async Task<IActionResult> GetAllPurchaseItems()
