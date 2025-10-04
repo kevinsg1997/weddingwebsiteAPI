@@ -36,18 +36,23 @@ namespace WeddingMerchantApi.Controllers
 
         //Deletar um item de compra
         [HttpPut("delete")]
-        public async Task<IActionResult> DeletePurchaseItem([FromBody] PurchaseItem purchaseItem)
+        public async Task<IActionResult> DeletePurchaseItem(string id)
         {
             try
             {
-                purchaseItem.Available = true;
-                purchaseItem.Deleted = true;
-                purchaseItem.UpdatedAt = DateTime.UtcNow;
+                var item = await _dbContext.PurchaseItem.FindAsync(Guid.Parse(id));
+                if (item == null)
+                {
+                    return NotFound(new { error = "Item not found" });
+                }
 
-                _dbContext.PurchaseItem.Add(purchaseItem);
+                item.Deleted = true;
+                item.UpdatedAt = DateTime.UtcNow;
+
+                _dbContext.PurchaseItem.Update(item);
                 await _dbContext.SaveChangesAsync();
 
-                return Ok(purchaseItem);
+                return Ok(item);
             }
             catch (Exception ex)
             {
