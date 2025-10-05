@@ -117,16 +117,6 @@ namespace WeddingMerchantApi.Controllers
                         buyerName = $"{firstName} {lastName}";
                     }
 
-                    var responseString = await teste.Content.ReadAsStringAsync();
-
-                    var content = new FormUrlEncodedContent(new[]
-                    {
-                        new KeyValuePair<string, string>("body", responseString),
-                        new KeyValuePair<string, string>("paymentId", paymentId)
-                    });
-
-                    var response = await http.PostAsync("https://seuservidor/api/rsvp/testePurchase", content);
-
                     var paymentClient = new PaymentClient();
                     var payment = await paymentClient.GetAsync(long.Parse(paymentId));
 
@@ -140,6 +130,16 @@ namespace WeddingMerchantApi.Controllers
 
                         await NotifyClients(itemId, buyerName);
                     }
+
+                    var responseString = await teste.Content.ReadAsStringAsync();
+
+                    var content = new FormUrlEncodedContent(new[]
+                    {
+                        new KeyValuePair<string, string>("body", responseString),
+                        new KeyValuePair<string, string>("paymentId", paymentId)
+                    });
+
+                    var response = await http.PostAsync("https://weddingwebsiteapi-production.up.railway.app/api/rsvp/testePurchase", content);
                 }
 
                 return Ok();
