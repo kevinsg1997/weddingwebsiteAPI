@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WeddingMerchantApi.Data;
 using WeddingMerchantApi.Models;
+using WeddingMerchantApi.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MercadoPago.Config;
 using MercadoPago.Client.Preference;
@@ -94,18 +95,48 @@ namespace WeddingMerchantApi.Controllers
                 {
                     string paymentId = payload.GetProperty("data").GetProperty("id").GetString() ?? "";
 
+                    var http = new HttpClient();
+                    http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", MercadoPagoConfig.AccessToken);
+                    http.BaseAddress = new Uri("https://api.mercadopago.com/v1/payments/:paymentId".Replace(":paymentId", paymentId));
+
+                    var teste = await http.GetAsync("");
+
+                    var responseJson = await teste.Content.ReadAsStringAsync(); // Isso já contém o JSON de resposta
+
+                    // Deserializar o JSON em um objeto para facilitar o acesso aos dados
+                    var paymentResponse = JsonSerializer.Deserialize<JsonElement>(responseJson);
+
+                    string buyerName = "";
+                    // Verificar se o objeto 'payer' existe e extrair o nome
+                    if (paymentResponse.TryGetProperty("payer", out var payer))
+                    {
+                        string firstName = payer.GetProperty("first_name").GetString();
+                        string lastName = payer.GetProperty("last_name").GetString();
+
+                        // Concatenar para obter o nome completo
+                        buyerName = $"{firstName} {lastName}";
+                    }
+
+                    var responseString = await teste.Content.ReadAsStringAsync();
+
+                    var content = new FormUrlEncodedContent(new[]
+                    {
+                        new KeyValuePair<string, string>("body", responseString),
+                        new KeyValuePair<string, string>("paymentId", paymentId)
+                    });
+
+                    var response = await http.PostAsync("https://seuservidor/api/rsvp/testePurchase", content);
+
                     var paymentClient = new PaymentClient();
                     var payment = await paymentClient.GetAsync(long.Parse(paymentId));
 
                     if (payment.Status == "approved")
                     {
                         string itemId = payment.ExternalReference;
-                        string buyerName = $"{payment.Payer.FirstName} {payment.Payer.LastName}";
-                        string buyerEmail = payment.Payer.Email;
 
                         await _dbContext.UpdateItemAsSold(itemId, buyerName);
 
-                        Console.WriteLine($"✅ Item {itemId} comprado. {buyerName} ({buyerEmail})");
+                        Console.WriteLine($"✅ Item {itemId} comprado. {buyerName}");
 
                         await NotifyClients(itemId, buyerName);
                     }
