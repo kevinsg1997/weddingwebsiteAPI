@@ -95,16 +95,23 @@ namespace WeddingMerchantApi.Controllers
                 {
                     string paymentId = payload.GetProperty("data").GetProperty("id").GetString() ?? "";
 
+                    Console.WriteLine($"🔔 Webhook recebido para o pagamento ID: {paymentId}");
+
+
                     var http = new HttpClient();
                     http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", MercadoPagoConfig.AccessToken);
                     http.BaseAddress = new Uri("https://api.mercadopago.com/v1/payments/:paymentId".Replace(":paymentId", paymentId));
 
                     var teste = await http.GetAsync("");
 
+                    Console.WriteLine($"Resposta do Mercado Pago: {teste.ToString()}");
+
                     var responseJson = await teste.Content.ReadAsStringAsync(); // Isso já contém o JSON de resposta
 
                     // Deserializar o JSON em um objeto para facilitar o acesso aos dados
                     var paymentResponse = JsonSerializer.Deserialize<JsonElement>(responseJson);
+
+                    Console.WriteLine($"JSON do pagamento: {paymentResponse}");
 
                     string buyerName = "";
                     // Verificar se o objeto 'payer' existe e extrair o nome
