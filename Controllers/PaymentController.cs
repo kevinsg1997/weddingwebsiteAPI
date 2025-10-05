@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using WeddingMerchantApi.Data;
 using WeddingMerchantApi.Models;
-using WeddingMerchantApi.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MercadoPago.Config;
 using MercadoPago.Client.Preference;
@@ -97,32 +96,7 @@ namespace WeddingMerchantApi.Controllers
 
                     Console.WriteLine($"🔔 Webhook recebido para o pagamento ID: {paymentId}");
 
-
-                    var http = new HttpClient();
-                    http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", MercadoPagoConfig.AccessToken);
-                    http.BaseAddress = new Uri("https://api.mercadopago.com/v1/payments/:paymentId".Replace(":paymentId", paymentId));
-
-                    var teste = await http.GetAsync("");
-
-                    Console.WriteLine($"Resposta do Mercado Pago: {teste.ToString()}");
-
-                    var responseJson = await teste.Content.ReadAsStringAsync(); // Isso já contém o JSON de resposta
-
-                    // Deserializar o JSON em um objeto para facilitar o acesso aos dados
-                    var paymentResponse = JsonSerializer.Deserialize<JsonElement>(responseJson);
-
-                    Console.WriteLine($"JSON do pagamento: {paymentResponse}");
-
                     string buyerName = "";
-                    // Verificar se o objeto 'payer' existe e extrair o nome
-                    if (paymentResponse.TryGetProperty("payer", out var payer))
-                    {
-                        string firstName = payer.GetProperty("first_name").GetString();
-                        string lastName = payer.GetProperty("last_name").GetString();
-
-                        // Concatenar para obter o nome completo
-                        buyerName = $"{firstName} {lastName}";
-                    }
 
                     var paymentClient = new PaymentClient();
                     var payment = await paymentClient.GetAsync(long.Parse(paymentId));
@@ -133,20 +107,14 @@ namespace WeddingMerchantApi.Controllers
 
                         await _dbContext.UpdateItemAsSold(itemId, buyerName);
 
-                        Console.WriteLine($"✅ Item {itemId} comprado. {buyerName}");
+                        Console.WriteLine($"✅ Item {itemId} comprado.");
 
                         await NotifyClients(itemId, buyerName);
                     }
-
-                    var responseString = await teste.Content.ReadAsStringAsync();
-
-                    var content = new FormUrlEncodedContent(new[]
+                    else
                     {
-                        new KeyValuePair<string, string>("body", responseString),
-                        new KeyValuePair<string, string>("paymentId", paymentId)
-                    });
-
-                    var response = await http.PostAsync("https://weddingwebsiteapi-production.up.railway.app/api/rsvp/testePurchase", content);
+                        Console.WriteLine($"⚠️ Pagamento {paymentId} não aprovado. Status: {payment.Status}");
+                    }
                 }
 
                 return Ok();

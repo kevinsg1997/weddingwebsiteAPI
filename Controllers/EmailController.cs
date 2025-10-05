@@ -45,26 +45,6 @@ namespace WeddingMerchantApi.Controllers
             }
         }
 
-        [HttpPost("testePurchase")]
-        public async Task<IActionResult> TestePurchase(string body, string paymentId)
-        {
-            try
-            {
-                string htmlContent = $"<h1>Ai sim!</h1>" +
-                                     $"<p>body: {body} <br/> PaymentId: {paymentId}</ p >";
-
-                bool sent = await _emailService.SendEmailAsync("", $"realizou uma compra na loja!", htmlContent);
-
-                if (!sent) return StatusCode(500, new { message = "Erro ao enviar o e-mail." });
-
-                return Ok(new { message = "Resposta enviada com sucesso!" });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { error = ex.Message });
-            }
-        }
-
         // Agora que implementei um banco, não usarei mais esse endpoint.
         // [HttpPost("confirm")]
         // public async Task<IActionResult> ConfirmAttendance([FromBody] RSVPRequest request)
